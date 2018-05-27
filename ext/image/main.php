@@ -348,6 +348,15 @@ class ImageIO extends Extension {
 			}
 		}
 
+                $filename = $image->filename;
+                $filenamelen = strlen($filename);
+                if ($filenamelen > 64) {
+                    $suffix = '.' . $image->ext;
+                    $suffixlen = strlen($suffix);
+                    $purename = substr($filename, 0, $filenamelen - $suffixlen);
+                    $filename = mb_strcut($purename, 0, 64 - $suffixlen) . $suffix;
+                }
+
 		// actually insert the info
 		$database->Execute(
 				"INSERT INTO images(
@@ -359,7 +368,7 @@ class ImageIO extends Extension {
 					:hash, :ext, :width, :height, now(), :source
 				)",
 				array(
-					"owner_id"=>$user->id, "owner_ip"=>$_SERVER['REMOTE_ADDR'], "filename"=>substr($image->filename, 0, 60), "filesize"=>$image->filesize,
+					"owner_id"=>$user->id, "owner_ip"=>$_SERVER['REMOTE_ADDR'], "filename"=>$filename, "filesize"=>$image->filesize,
 					"hash"=>$image->hash, "ext"=>strtolower($image->ext), "width"=>$image->width, "height"=>$image->height, "source"=>$image->source
 				)
 		);
