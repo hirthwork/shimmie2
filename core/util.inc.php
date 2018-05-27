@@ -451,6 +451,8 @@ function make_link($page=null, $query=null) {
 
 	if(is_null($page)) $page = $config->get_string('main_page');
 
+	$separator = '/';
+
 	if(!is_null(BASE_URL)) {
 		$base = BASE_URL;
 	}
@@ -458,21 +460,22 @@ function make_link($page=null, $query=null) {
 		$base = str_replace('/'.basename($_SERVER["SCRIPT_FILENAME"]), "", $_SERVER["PHP_SELF"]);
 	}
 	else {
+		$separator = '';
 		$base = "./".basename($_SERVER["SCRIPT_FILENAME"])."?q=";
 	}
 
 	if(is_null($query)) {
-		return str_replace("//", "/", $base.'/'.$page );
+		return str_replace("//", "/", $base . $separator . $page );
 	}
 	else {
 		if(strpos($base, "?")) {
-			return $base .'/'. $page .'&'. $query;
+			return $base . $separator . $page .'&'. $query;
 		}
 		else if(strpos($query, "#") === 0) {
-			return $base .'/'. $page . $query;
+			return $base . $separator . $page . $query;
 		}
 		else {
-			return $base .'/'. $page .'?'. $query;
+			return $base . $separator . $page .'?'. $query;
 		}
 	}
 }
