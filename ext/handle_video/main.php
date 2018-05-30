@@ -110,7 +110,7 @@ class VideoFileHandler extends DataHandlerExtension {
 				}
 				else
 				{
-					$scale = 'scale="' . escapeshellarg("if(gt(a,{$w}/{$h}),{$w},-1)") . ':' . escapeshellarg("if(gt(a,{$w}/{$h}),-1,{$h})") . '"';
+					$scale = 'scale="' . escapeshellarg("min({$w},iw)") . ':' . escapeshellarg("min({$h},ih)") . ':force_original_aspect_ratio=decrease"';
 					$cmd = "{$ffmpeg} -y -i {$inname} -vf {$scale} -ss 00:00:00.0 -f image2 -vframes 1 {$outname}";
 				}
 
