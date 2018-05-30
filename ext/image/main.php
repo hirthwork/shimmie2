@@ -348,14 +348,14 @@ class ImageIO extends Extension {
 			}
 		}
 
-                $filename = $image->filename;
-                $filenamelen = strlen($filename);
-                if ($filenamelen > 64) {
-                    $suffix = '.' . $image->ext;
-                    $suffixlen = strlen($suffix);
-                    $purename = substr($filename, 0, $filenamelen - $suffixlen);
-                    $filename = mb_strcut($purename, 0, 64 - $suffixlen) . $suffix;
-                }
+		$filename = $image->filename;
+		$filenamelen = strlen($filename);
+		if ($filenamelen > 64) {
+			$suffix = '.' . $image->ext;
+			$suffixlen = strlen($suffix);
+			$purename = substr($filename, 0, $filenamelen - $suffixlen);
+			$filename = mb_strcut($purename, 0, 64 - $suffixlen) . $suffix;
+		}
 
 		// actually insert the info
 		$database->Execute(

@@ -147,24 +147,24 @@ class VideoFileHandler extends DataHandlerExtension {
 
 		$image = new Image();
 
-                if ($config->get_string("video_thumb_engine") == "ffmpeg") {
-                    $ffmpeg = escapeshellcmd($config->get_string("thumb_ffmpeg_path"));
-                    $cmd = $ffmpeg . ' -i ' . escapeshellarg($filename) . ' 2>&1 |grep -m1 ' . escapeshellarg("Stream #.*Video") . ' | grep -o ' . escapeshellarg("[0-9]\\+x[0-9]\\+");
-                    $output = shell_exec($cmd);
-                    $width = strstr($output, 'x', true);
-                    if ($width) {
-                        $image->width = (int) $width;
-                        $height = substr(strstr($output, 'x'), 1);
-                        $image->height = (int) $height;
-                    } else {
-                        $image->width  = 1;
-                        $image->height = 1;
-                    }
-                } else {
-                    //NOTE: No need to set width/height as we don't use it.
-                    $image->width  = 1;
-                    $image->height = 1;
-                }
+		if ($config->get_string("video_thumb_engine") == "ffmpeg") {
+			$ffmpeg = escapeshellcmd($config->get_string("thumb_ffmpeg_path"));
+			$cmd = $ffmpeg . ' -i ' . escapeshellarg($filename) . ' 2>&1 |grep -m1 ' . escapeshellarg("Stream #.*Video") . ' | grep -o ' . escapeshellarg("[0-9]\\+x[0-9]\\+");
+			$output = shell_exec($cmd);
+			$width = strstr($output, 'x', true);
+			if ($width) {
+				$image->width = (int) $width;
+				$height = substr(strstr($output, 'x'), 1);
+				$image->height = (int) $height;
+			} else {
+				$image->width  = 1;
+				$image->height = 1;
+			}
+		} else {
+			//NOTE: No need to set width/height as we don't use it.
+			$image->width  = 1;
+			$image->height = 1;
+		}
 
 		switch (mime_content_type($filename)) {
 			case "video/webm":

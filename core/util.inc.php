@@ -1446,17 +1446,17 @@ function list_files(/*string*/ $base, $_sub_dir="") {
  * @return string
  */
 function path_to_tags($path) {
-    $matches = array();
-    if(preg_match("/\d+ - (.*)\.([a-zA-Z]+)/", basename($path), $matches)) {
-        $tags = $matches[1];
-    }
-    else {
-        $tags = dirname($path);
-        $tags = str_replace("/", " ", $tags);
-        $tags = str_replace("__", " ", $tags);
-        $tags = trim($tags);
-    }
-    return $tags;
+	$matches = array();
+	if(preg_match("/\d+ - (.*)\.([a-zA-Z]+)/", basename($path), $matches)) {
+		$tags = $matches[1];
+	}
+	else {
+		$tags = dirname($path);
+		$tags = str_replace("/", " ", $tags);
+		$tags = str_replace("__", " ", $tags);
+		$tags = trim($tags);
+	}
+	return $tags;
 }
 
 
@@ -1656,15 +1656,15 @@ function score_assert_handler($file, $line, $code, $desc = null) {
 function _version_check() {
 	if(MIN_PHP_VERSION)
 	{
-        if(version_compare(phpversion(), MIN_PHP_VERSION, ">=") === FALSE) {
-            print "
+		if(version_compare(phpversion(), MIN_PHP_VERSION, ">=") === FALSE) {
+			print "
 Shimmie (SCore Engine) does not support versions of PHP lower than ".MIN_PHP_VERSION."
 (PHP reports that it is version ".phpversion().")
 If your web host is running an older version, they are dangerously out of
 date and you should plan on moving elsewhere.
 ";
-            exit;
-        }
+			exit;
+		}
 	}
 }
 
@@ -1782,7 +1782,7 @@ function _get_user() {
 	global $config, $page;
 	$user = null;
 	if($page->get_cookie("user") && $page->get_cookie("session")) {
-	    $tmp_user = User::by_session($page->get_cookie("user"), $page->get_cookie("session"));
+		$tmp_user = User::by_session($page->get_cookie("user"), $page->get_cookie("session"));
 		if(!is_null($tmp_user)) {
 			$user = $tmp_user;
 		}
