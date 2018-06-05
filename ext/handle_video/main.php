@@ -149,7 +149,7 @@ class VideoFileHandler extends ThumbHandlerExtension {
 
 		if ($config->get_string("video_thumb_engine") == "ffmpeg") {
 			$ffmpeg = escapeshellcmd($config->get_string("thumb_ffmpeg_path"));
-			$cmd = $ffmpeg . ' -i ' . escapeshellarg($filename) . ' 2>&1 |grep -m1 ' . escapeshellarg("Stream #.*Video") . ' | grep -o ' . escapeshellarg("[0-9]\\+x[0-9]\\+");
+			$cmd = $ffmpeg . ' -i ' . escapeshellarg($filename) . ' 2>&1 |grep -m1 ' . escapeshellarg("Stream #.*Video") . ' | grep -o ' . escapeshellarg("[0-9]\\+x[0-9]\\+") . ' | grep -v ' . escapeshellarg("^0x");
 			$output = shell_exec($cmd);
 			$width = strstr($output, 'x', true);
 			if ($width) {
