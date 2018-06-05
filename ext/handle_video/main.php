@@ -14,7 +14,7 @@
  *  In the future, it may be necessary to change the user agent checks to reflect the current state of H.264 support.<br><br>
  */
 
-class VideoFileHandler extends DataHandlerExtension {
+class VideoFileHandler extends ThumbHandlerExtension {
 	public function onInitExt(InitExtEvent $event) {
 		global $config;
 
@@ -68,7 +68,7 @@ class VideoFileHandler extends DataHandlerExtension {
 		$sb->add_bool_option("video_thumb_ignore_aspect_ratio", "Ignore aspect ratio when creating thumbnails: ");
 
 		$event->panel->add_block($sb);
-		
+
 		$sb = new SetupBlock("Video Playback Options");
 		$sb->add_bool_option("video_playback_autoplay", "Autoplay: ");
 		$sb->add_label("<br>");
@@ -91,11 +91,11 @@ class VideoFileHandler extends DataHandlerExtension {
 		{
 			default:
 			case 'static':
+				$inname = "ext/handle_video/thumb.jpg";
 				$outname = warehouse_path("thumbs", $hash);
-				copy("ext/handle_video/thumb.jpg", $outname);
-				$ok = true;
+				$ok = $this->do_create_thumb($inname, $outname);
 				break;
-			
+
 			case 'ffmpeg':
 				$ffmpeg = escapeshellcmd($config->get_string("thumb_ffmpeg_path"));
 
@@ -103,7 +103,7 @@ class VideoFileHandler extends DataHandlerExtension {
 				$h = (int)$config->get_int("thumb_height");
 				$inname  = escapeshellarg(warehouse_path("images", $hash));
 				$outname = escapeshellarg(warehouse_path("thumbs", $hash));
-			
+
 				if ($config->get_bool("video_thumb_ignore_aspect_ratio") == true)
 				{
 					$cmd = escapeshellcmd("{$ffmpeg} -y -i {$inname} -ss 00:00:00.0 -f image2 -vframes 1 {$outname}");
