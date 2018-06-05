@@ -116,7 +116,7 @@ class VideoFileHandler extends DataHandlerExtension {
 
 				exec($cmd, $output, $returnValue);
 
-				if ((int)$returnValue == (int)1)
+				if ((int)$returnValue == (int) 0)
 				{
 					$ok = true;
 				}
